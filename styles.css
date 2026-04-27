@@ -13,8 +13,8 @@ html {
   color: var(--text-color);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  /* Smooth transition handled via JS color array now, but good as a fallback */
   transition: background-color 0.8s ease;
-  /* Smooth color morphing */
 }
 
 /* The 3D World */
@@ -29,6 +29,10 @@ html {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  will-change: transform, opacity;
+
+  /* ADD THIS LINE: Lets your touch swipe pass through the invisible background */
+  pointer-events: none;
 }
 
 /* Sections Setup */
@@ -38,9 +42,11 @@ html {
   max-width: 800px;
   text-align: center;
   visibility: hidden;
-  /* Hidden by default to fix the "ghosting" bug */
   will-change: transform, opacity;
+  pointer-events: auto;
+  browsers to allow vertical swiping */ touch-action: pan-y;
 }
+
 
 h1 {
   font-size: clamp(3rem, 10vw, 6rem);
@@ -116,7 +122,6 @@ h2 {
     clip: rect(0px, 0px, 0px, 0px);
   }
 
-  /* Stay normal mostly */
   100% {
     clip: rect(0px, 0px, 0px, 0px);
   }
@@ -185,4 +190,63 @@ h2 {
   z-index: 999;
 }
 
+/* Make interactive projects look clickable */
+.interactive-project {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.interactive-project:active {
+  transform: scale(0.95);
+  /* Slight shrink when tapped on mobile */
+}
+
+/* Rocket Indicator */
+#rocket-indicator {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--accent-color);
+  font-family: monospace;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  z-index: 1000;
+  pointer-events: none;
+  animation: hoverBounce 2s infinite ease-in-out;
+  will-change: transform;
+}
+
+.rocket-icon {
+  font-size: 2.5rem;
+  margin-top: 10px;
+}
+
+@keyframes hoverBounce {
+
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, -15px);
+  }
+}
+
+/* Hyperdrive Flash Screen */
+#hyperdrive-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
 }
