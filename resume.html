@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ron Green | Resume Module</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+      /* ==========================================
+           IRON DIGITAL GLOBAL THEME
+           ========================================== */
+      :root {
+        --bg-dark: #030712;
+        --grid-color: rgba(0, 242, 255, 0.05);
+        --cyan: #00f2ff;
+        --text-main: #e2e8f0;
+        --text-muted: #94a3b8;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        font-family: "Inter", monospace;
+        overflow-x: hidden;
+        perspective: 2000px; /* Perspective for the 3D tilt */
+      }
+
+      @keyframes gridPan {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(50px);
+        }
+      }
+
+      /* ==========================================
+           AMBIENT DATA PARTICLES (From Iron Digital)
+           ========================================== */
+      #ambient-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9999;
+        pointer-events: none;
+        overflow: hidden;
+        mix-blend-mode: screen;
+      }
+
+      .ambient-particle {
+        position: absolute;
+        background: var(--cyan);
+        border-radius: 50%;
+        box-shadow: 0 0 12px 2px rgba(0, 242, 255, 1);
+        will-change: transform, opacity;
+      }
+
+      /* ==========================================
+           THE GLASS RESUME MODULE
+           ========================================== */
+      .main-module {
+        max-width: 900px;
+        width: 95%;
+        margin: 80px auto;
+        /* High transparency glass to see the grid and particles behind it */
+        background: rgba(10, 15, 30, 0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(0, 242, 255, 0.2);
+        border-radius: 16px;
+        padding: 60px;
+        position: relative;
+        /* Needs a Z-index below 9999 so particles float ON TOP of the glass */
+        z-index: 10;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        transform-style: preserve-3d;
+        will-change: transform;
+        opacity: 0; /* For GSAP entrance fade */
+        transform: translateY(30px);
+      }
+
+      /* ==========================================
+           TYPOGRAPHY & LAYOUT
+           ========================================== */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        padding-bottom: 30px;
+        margin-bottom: 40px;
+      }
+
+      /* Mirrors the .neon-text class from Iron Digital */
+      h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin: 0;
+        line-height: 1;
+        font-weight: 900;
+        text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        letter-spacing: -1px;
+        font-family: "Inter", sans-serif;
+        color: var(--text-main);
+        text-transform: uppercase;
+      }
+
+      .sys-code {
+        color: var(--cyan);
+        font-family: monospace;
+        letter-spacing: 2px;
+        margin-top: 10px;
+        font-size: 1rem;
+      }
+
+      .contact-info {
+        text-align: right;
+        font-size: 0.9rem;
+        font-family: monospace;
+      }
+
+      .contact-info a {
+        color: var(--text-muted);
+        text-decoration: none;
+        display: block;
+        margin-bottom: 6px;
+        transition:
+          color 0.3s,
+          text-shadow 0.3s;
+      }
+
+      .contact-info a:hover {
+        color: var(--cyan);
+        text-shadow: 0 0 10px var(--cyan);
+      }
+
+      .contact-info span {
+        color: #555;
+        display: block;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-top: 50px;
+        margin-bottom: 25px;
+        font-family: monospace;
+        display: flex;
+        align-items: center;
+      }
+
+      h2::after {
+        content: "";
+        flex-grow: 1;
+        height: 1px;
+        background: rgba(0, 242, 255, 0.2);
+        margin-left: 20px;
+      }
+
+      p.summary {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+        margin-bottom: 30px;
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Skills Grid */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+        margin-bottom: 50px;
+      }
+
+      .skill-item strong {
+        color: var(--text-main);
+        display: block;
+        margin-bottom: 6px;
+        font-family: "Inter", sans-serif;
+      }
+
+      .skill-item span {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      /* Projects */
+      .entry {
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .entry-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin: 0;
+        font-family: "Inter", sans-serif;
+      }
+
+      .date {
+        font-size: 0.9rem;
+        color: var(--cyan);
+        font-family: monospace;
+      }
+
+      /* Mirrors .sys-code tag style */
+      .tech-stack {
+        font-size: 0.85rem;
+        color: var(--cyan);
+        font-family: monospace;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+
+      /* Mirrors .tag-list li::before styling */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin-bottom: 12px;
+        color: var(--text-muted);
+        font-size: 1rem;
+        line-height: 1.6;
+        font-family: "Inter", sans-serif;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      li::before {
+        content: "/> ";
+        color: var(--cyan);
+        position: absolute;
+        left: 0;
+        font-family: monospace;
+      }
+
+      /* ==========================================
+           PRINT OVERRIDE
+           ========================================== */
+      @media print {
+        @page {
+          margin: 0.5in;
+          size: letter;
+        }
+        body {
+          background: #fff !important;
+          color: #111 !important;
+          display: block;
+          font-size: 10pt;
+        }
+        .digital-grid,
+        #ambient-particles {
+          display: none !important;
+        }
+
+        .main-module {
+          margin: 0 !important;
+          padding: 0 !important;
+          max-width: 100% !important;
+          width: 100% !important;
+          background: none !important;
+          border: none !important;
+          box-shadow: none !important;
+          transform: none !important;
+          opacity: 1 !important;
+          backdrop-filter: none !important;
+        }
+
+        header {
+          border-bottom: 2px solid #000;
+          padding-bottom: 15px !important;
+        }
+        .contact-info a,
+        .contact-info span {
+          color: #111 !important;
+          text-align: left;
+          display: inline;
+          margin-right: 15px;
+        }
+
+        h1 {
+          color: #000 !important;
+          text-shadow: none !important;
+        }
+        h2 {
+          color: #000 !important;
+          border: none !important;
+          margin-top: 25px;
+          margin-bottom: 10px;
+        }
+        h2::after {
+          display: none;
+        }
+        h3,
+        .sys-code,
+        .tech-stack {
+          color: #000 !important;
+        }
+
+        p.summary,
+        .skill-item span,
+        li {
+          color: #222 !important;
+        }
+        .date,
+        li::before {
+          color: #555 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="digital-grid"></div>
+
+    <div id="ambient-particles"></div>
+
+    <div class="main-module" id="resume-card">
+      <header>
+        <div>
+          <h1>Ron Green</h1>
+          <div class="sys-code">> SOFTWARE ENGINEER</div>
+        </div>
+        <div class="contact-info">
+          <a href="mailto:RongDesigns313@gmail.com">RongDesigns313@gmail.com</a>
+          <a href="https://Rgdevelops.com" target="_blank">Rgdevelops.com</a>
+          <span>Detroit, MI</span>
+        </div>
+      </header>
+
+      <p class="summary">
+        Software Engineer specializing in high-performance digital
+        architectures, custom physics engines, and native mobile development.
+        Proven ability to architect complex systems from the ground up,
+        bypassing standard SaaS limitations to build proprietary, high-speed
+        tools.
+      </p>
+
+      <h2>Technical Arsenal</h2>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <strong>Languages</strong>
+          <span>JavaScript, TypeScript, Python, HTML/CSS</span>
+        </div>
+        <div class="skill-item">
+          <strong>Frameworks</strong>
+          <span>React, React Native, Node.js, Express</span>
+        </div>
+        <div class="skill-item">
+          <strong>Core Tech</strong> <span>GSAP, Three.js, Git, Docker</span>
+        </div>
+        <div class="skill-item">
+          <strong>Architecture</strong>
+          <span>REST APIs, GraphQL, SMTP Routing</span>
+        </div>
+      </div>
+
+      <h2>Architectural Projects</h2>
+
+      <div class="entry">
+        <div class="entry-header">
+          <h3>Sorting Source</h3>
+          <div class="date">2025 - Present</div>
+        </div>
+        <div class="tech-stack">Node.js / Proprietary Maps API / LLMs</div>
+        <ul>
+          <li>
+            Engineered an algorithmic "Anti-SaaS" lead generation engine capable
+            of stripping local business data and synthesizing hyper-personalized
+            outreach.
+          </li>
+          <li>
+            Developed a 4-step execution pipeline (Hunter, Extractor, Pitcher,
+            Dispatcher) utilizing asynchronous web scraping protocols to bypass
+            hidden public data.
+          </li>
+          <li>
+            Integrated future-proof "Model Override" logic allowing seamless
+            routing between Gemini, OpenAI, and Hugging Face language models for
+            pitch synthesis.
+          </li>
+          <li>
+            Architected an 'Anti-Spam Jitter' SMTP protocol injecting randomized
+            human-like delays to protect domain reputation and ensure
+            stealth-mode inbox delivery.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <h3>Pocket Code Pro</h3>
+          <div class="date">2024 - 2025</div>
+        </div>
+        <div class="tech-stack">React Native / GitHub API / Custom Parsing</div>
+        <ul>
+          <li>
+            Built a complete, native mobile IDE from the ground up, bypassing
+            standard mobile keyboard limitations to create a fluid coding
+            experience.
+          </li>
+          <li>
+            Engineered a custom editor interface featuring real-time syntax
+            highlighting, auto-indentation, and a proprietary accessory keyboard
+            for vital coding symbols.
+          </li>
+          <li>
+            Integrated full GitHub API support, allowing users to clone, branch,
+            stage changes, and push hotfixes directly from their mobile devices.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <h3>EZ Breathe</h3>
+          <div class="date">2024</div>
+        </div>
+        <div class="tech-stack">
+          React Native / Haptic Engine / HW Acceleration
+        </div>
+        <ul>
+          <li>
+            Engineered a cross-platform mindfulness application prioritizing
+            zero-latency performance and minimal cognitive load.
+          </li>
+          <li>
+            Bypassed standard DOM rendering to utilize hardware-accelerated
+            graphics, ensuring a locked 60fps framerate for
+            expansion/contraction ring animations.
+          </li>
+          <li>
+            Synchronized visual scaling perfectly with native device haptic
+            feedback engines to provide tactile grounding for users.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <h3>Iron Digital</h3>
+          <div class="date">2023 - 2024</div>
+        </div>
+        <div class="tech-stack">Full-Stack / GSAP / WebGL</div>
+        <ul>
+          <li>
+            Architected an elite, interactive portfolio ecosystem using modern
+            web technologies to simulate a physics-based, 3D command center.
+          </li>
+          <li>
+            Developed a hybrid physics engine combining progress-based scroll
+            tracking with tactile, drag-and-drop mechanics using GSAP Draggable.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. Entrance Fade
+        const resumeCard = document.getElementById("resume-card");
+        gsap.to(resumeCard, {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out",
+        });
+
+        // 2. Ultra-Smooth Micro-Tilt (Divisor increased to 800)
+        document.addEventListener("mousemove", (e) => {
+          const xAxis = (window.innerWidth / 2 - e.pageX) / 800;
+          const yAxis = (window.innerHeight / 2 - e.pageY) / 800;
+
+          gsap.to(resumeCard, {
+            rotationY: xAxis,
+            rotationX: yAxis,
+            duration: 1,
+            ease: "power2.out",
+            transformPerspective: 2000,
+            transformOrigin: "center center",
+          });
+        });
+
+        // 3. Foreground Particles
+        const container = document.getElementById("ambient-particles");
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("ambient-particle");
+
+          const size = Math.random() * 3 + 1;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+
+          const startX = Math.random() * window.innerWidth;
+          const startY = Math.random() * window.innerHeight + 100;
+
+          gsap.set(particle, {
+            x: startX,
+            y: startY,
+            opacity: Math.random() * 0.6 + 0.1,
+          });
+
+          gsap.to(particle, {
+            y: "-=400",
+            x: `+=${(Math.random() - 0.5) * 150}`,
+            opacity: 0,
+            duration: Math.random() * 12 + 8,
+            repeat: -1,
+            ease: "power1.out",
+            delay: Math.random() * -20,
+            onRepeat: () => {
+              gsap.set(particle, {
+                y: window.innerHeight + 50,
+                x: Math.random() * window.innerWidth,
+                opacity: Math.random() * 0.6 + 0.1,
+              });
+            },
+          });
+
+          container.appendChild(particle);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -138,3 +138,104 @@ h2 { font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 10px; }
     0% { transform: scaleY(0.8); opacity: 0.8; }
     100% { transform: scaleY(1.2); opacity: 1; }
 }
+
+/* ==========================================
+   GLOBAL THEME VARIABLES
+   ========================================== */
+:root {
+    --primary-neon: #00f2ff; /* Default Cyan */
+    --bg-glow: rgba(0, 242, 255, 0.1);
+}
+
+/* NIGHTMARE MODE OVERRIDES */
+body.nightmare-mode {
+    --primary-neon: #ff0055; /* Aggressive Red */
+    --bg-glow: rgba(255, 0, 85, 0.1);
+}
+
+body.nightmare-mode .digital-grid {
+    background-image: linear-gradient(var(--bg-glow) 1px, transparent 1px), linear-gradient(90deg, var(--bg-glow) 1px, transparent 1px);
+}
+
+/* ==========================================
+   CUSTOM CROSSHAIR CURSOR
+   ========================================== */
+/* Hide the default mouse pointer everywhere */
+* { cursor: none !important; }
+
+#cursor-dot {
+    position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+    background: var(--primary-neon); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: background 0.3s ease;
+}
+
+#cursor-ring {
+    position: fixed; top: 0; left: 0; width: 30px; height: 30px;
+    border: 1px solid var(--primary-neon); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: border-color 0.3s ease, width 0.2s, height 0.2s;
+}
+
+/* ==========================================
+   THE HIDDEN TERMINAL
+   ========================================== */
+#dev-terminal {
+    position: fixed; top: -100%; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 600px; height: 400px;
+    background: rgba(5, 5, 5, 0.95);
+    border: 1px solid var(--primary-neon);
+    border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+    z-index: 10000;
+    font-family: monospace; color: var(--primary-neon);
+    padding: 20px; box-shadow: 0 10px 30px var(--bg-glow);
+    display: flex; flex-direction: column;
+    transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth slide down */
+}
+
+#dev-terminal.active { top: 0; }
+
+.terminal-header { font-size: 0.8rem; opacity: 0.5; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+#term-output { flex-grow: 1; overflow-y: auto; margin-bottom: 10px; font-size: 0.9rem; line-height: 1.5; }
+#term-output p { margin: 5px 0; }
+.term-input-line { display: flex; align-items: center; }
+.term-input-line .prompt { margin-right: 10px; }
+#term-input { background: transparent; border: none; color: #fff; font-family: monospace; font-size: 1rem; outline: none; width: 100%; }
+
+/* ==========================================
+   TACTICAL RESUME BUTTON
+   ========================================== */
+.resume-btn {
+    border: 1px solid var(--primary-neon);
+    color: var(--primary-neon);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px 20px;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px); /* Gives it that glass UI feel */
+    cursor: none; /* Keeps your custom cursor active */
+}
+
+/* The Hover State: Inverts the colors and makes it glow */
+.resume-btn:hover {
+    background: var(--primary-neon);
+    color: #000;
+    box-shadow: 0 0 20px var(--primary-neon);
+}
+
+/* If Nightmare Mode is active, the button automatically turns Crimson Red! */
+body.nightmare-mode .resume-btn {
+    border-color: #ff0055;
+    color: #ff0055;
+}
+body.nightmare-mode .resume-btn:hover {
+    background: #ff0055;
+    color: #fff;
+    box-shadow: 0 0 20px #ff0055;
+}
