@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EZ Breathe | RG Blueprint</title>
+    <link rel="stylesheet" href="project.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  </head>
+  <body>
+    <div id="entrance-flash"></div>
+
+    <div class="digital-grid"></div>
+
+    <nav class="top-nav">
+      <a href="index.html?returnTo=3" class="back-btn"
+        >← TERMINATE CONNECTION (BACK)</a
+      >
+    </nav>
+
+    <main class="blueprint-container">
+      <header class="project-hero">
+        <p class="sys-code">// SYS.LOAD: PROJECT_03</p>
+        <h1 class="neon-text">EZ BREATHE</h1>
+        <p class="subtitle">
+          Mindfulness in every pixel. A fluid, low-latency mobile experience.
+        </p>
+      </header>
+
+      <div class="content-split">
+        <aside class="tech-sidebar">
+          <div class="sticky-wrapper">
+            <h3>> TECH_STACK</h3>
+            <ul class="tag-list">
+              <li>React Native</li>
+              <li>Hardware-Accelerated Animation</li>
+              <li>Haptic Engine Integration</li>
+              <li>State Management (Redux/Context)</li>
+            </ul>
+
+            <h3 class="mt-spacing">> SCOPE</h3>
+            <p class="scope-text">
+              Engineered a cross-platform mindfulness application focused on
+              reducing cognitive load through a highly constrained, minimalist
+              UI and breath-synced micro-interactions.
+            </p>
+
+            <a href="#" class="live-link">[ DEPLOY LIVE APP ]</a>
+          </div>
+        </aside>
+
+        <section class="project-details">
+          <div class="detail-block reveal-element">
+            <h2>01. REDUCING COGNITIVE LOAD</h2>
+            <p>
+              When users open a mindfulness app, they are usually overwhelmed or
+              stressed. The architecture of EZ Breathe actively fights "app
+              fatigue." There are no complex onboarding menus or pop-ups. The
+              app launches directly into the core breathing mechanic, utilizing
+              pure black backgrounds to save battery on OLED screens and reduce
+              eye strain.
+            </p>
+
+            <div class="tilt-wrapper">
+              <div
+                class="tilt-image blueprint-mockup"
+                style="padding: 0; overflow: hidden"
+              >
+                <img
+                  src="assets/ez-breathe-1.png"
+                  alt="EZ Breathe Minimal UI"
+                  style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 16px;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-block reveal-element">
+            <h2>02. 60FPS FLUID ANIMATION</h2>
+            <p>
+              A breathing app fails if the visual cues stutter. I bypassed
+              standard DOM rendering and utilized hardware-accelerated graphics
+              to ensure the expansion and contraction rings scale flawlessly at
+              a locked 60 frames per second, syncing perfectly with the device's
+              native haptic feedback.
+            </p>
+
+            <div class="tilt-wrapper">
+              <div
+                class="tilt-image blueprint-mockup"
+                style="padding: 0; overflow: hidden"
+              >
+                <img
+                  src="assets/ez-breathe-2.png"
+                  alt="EZ Breathe Animation Logic"
+                  style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 16px;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="ambient-particles"></div>
+
+    <script src="project.js"></script>
+  </body>
+</html>

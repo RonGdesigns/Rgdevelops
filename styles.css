@@ -1,252 +1,140 @@
 :root {
-  --bg-color: #050505;
-  /* Base color, JS will morph this */
-  --accent-color: #00f2ff;
-  --text-color: #ffffff;
+    --bg-color: #050505;
+    --accent-color: #00f2ff;
+    --text-color: #ffffff;
 }
 
-body,
-html {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  /* Smooth transition handled via JS color array now, but good as a fallback */
-  transition: background-color 0.8s ease;
+body, html {
+    margin: 0; padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.8s ease; 
 }
 
-/* The 3D World */
 #world {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  perspective: 1000px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  will-change: transform, opacity;
-
-  /* ADD THIS LINE: Lets your touch swipe pass through the invisible background */
-  pointer-events: none;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100vh;
+    perspective: 1000px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    will-change: transform, opacity;
+    pointer-events: none; /* Lets touch swipe pass through */
 }
 
-/* Sections Setup */
 .section {
-  position: absolute;
-  width: 90%;
-  max-width: 800px;
-  text-align: center;
-  visibility: hidden;
-  will-change: transform, opacity;
-  pointer-events: auto;
-  browsers to allow vertical swiping */ touch-action: pan-y;
+    position: absolute; width: 90%; max-width: 800px;
+    text-align: center;
+    visibility: hidden; 
+    will-change: transform, opacity;
+    pointer-events: auto; 
+    touch-action: pan-y;
+    z-index: 10; /* THE FIX: Forces cards in front of the rocket */
+    
+    /* Optional: Add a dark glass background to the section so it actually hides the rocket */
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 242, 255, 0.1);
 }
 
-
-h1 {
-  font-size: clamp(3rem, 10vw, 6rem);
-  font-weight: 900;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-h2 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  margin-bottom: 10px;
-}
-
-.sub-text {
-  font-size: 1.2rem;
-  color: var(--accent-color);
-  letter-spacing: 5px;
-}
+h1 { font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; margin: 0; text-transform: uppercase; }
+h2 { font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 10px; }
+.sub-text { font-size: 1.2rem; color: var(--accent-color); letter-spacing: 5px; }
 
 /* The Glitch Effect */
-.glitch {
-  position: relative;
-  display: inline-block;
+.glitch { position: relative; display: inline-block; }
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-color);
 }
-
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--bg-color);
-}
-
 .glitch::before {
-  left: 2px;
-  text-shadow: -2px 0 #ff00c1;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim 5s infinite linear alternate-reverse;
+    left: 2px; text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
 }
-
 .glitch::after {
-  left: -2px;
-  text-shadow: -2px 0 #00fff9;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim2 5s infinite linear alternate-reverse;
+    left: -2px; text-shadow: -2px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
 }
 
 @keyframes glitch-anim {
-  0% {
-    clip: rect(10px, 9999px, 31px, 0);
-    transform: skew(0.5deg);
-  }
-
-  5% {
-    clip: rect(70px, 9999px, 12px, 0);
-    transform: skew(0.1deg);
-  }
-
-  10% {
-    clip: rect(30px, 9999px, 80px, 0);
-    transform: skew(0.8deg);
-  }
-
-  15% {
-    clip: rect(90px, 9999px, 45px, 0);
-    transform: skew(0.2deg);
-  }
-
-  20% {
-    clip: rect(0px, 0px, 0px, 0px);
-  }
-
-  100% {
-    clip: rect(0px, 0px, 0px, 0px);
-  }
+    0% { clip: rect(10px, 9999px, 31px, 0); transform: skew(0.5deg); }
+    5% { clip: rect(70px, 9999px, 12px, 0); transform: skew(0.1deg); }
+    10% { clip: rect(30px, 9999px, 80px, 0); transform: skew(0.8deg); }
+    15% { clip: rect(90px, 9999px, 45px, 0); transform: skew(0.2deg); }
+    20% { clip: rect(0px, 0px, 0px, 0px); } 
+    100% { clip: rect(0px, 0px, 0px, 0px); }
 }
-
 @keyframes glitch-anim2 {
-  0% {
-    clip: rect(65px, 9999px, 100px, 0);
-    transform: skew(0.2deg);
-  }
-
-  5% {
-    clip: rect(20px, 9999px, 60px, 0);
-    transform: skew(0.6deg);
-  }
-
-  10% {
-    clip: rect(80px, 9999px, 20px, 0);
-    transform: skew(0.1deg);
-  }
-
-  15% {
-    clip: rect(10px, 9999px, 90px, 0);
-    transform: skew(0.9deg);
-  }
-
-  20% {
-    clip: rect(0px, 0px, 0px, 0px);
-  }
-
-  100% {
-    clip: rect(0px, 0px, 0px, 0px);
-  }
+    0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(0.2deg); }
+    5% { clip: rect(20px, 9999px, 60px, 0); transform: skew(0.6deg); }
+    10% { clip: rect(80px, 9999px, 20px, 0); transform: skew(0.1deg); }
+    15% { clip: rect(10px, 9999px, 90px, 0); transform: skew(0.9deg); }
+    20% { clip: rect(0px, 0px, 0px, 0px); }
+    100% { clip: rect(0px, 0px, 0px, 0px); }
 }
 
 /* Particles */
 .particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  border-radius: 50%;
-  will-change: transform;
+    position: absolute; width: 2px; height: 2px;
+    background: #fff; border-radius: 50%; will-change: transform;
 }
 
 /* Utilities */
-.project-img {
-  width: 100%;
-  height: 250px;
-  background: #222;
-  border: 1px solid var(--accent-color);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+.project-img { 
+    width: 100%; height: 250px; background: #222; 
+    border: 1px solid var(--accent-color); border-radius: 10px; 
+    display: flex; align-items: center; justify-content: center; margin-top: 20px; 
 }
 
-#progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  background: var(--accent-color);
-  width: 0%;
-  z-index: 999;
+#progress { 
+    position: fixed; top: 0; left: 0; height: 3px; 
+    background: var(--accent-color); width: 0%; z-index: 999; 
 }
 
-/* Make interactive projects look clickable */
-.interactive-project {
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.interactive-project:active {
-  transform: scale(0.95);
-  /* Slight shrink when tapped on mobile */
-}
-
-/* Rocket Indicator */
-#rocket-indicator {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--accent-color);
-  font-family: monospace;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  z-index: 1000;
-  pointer-events: none;
-  animation: hoverBounce 2s infinite ease-in-out;
-  will-change: transform;
-}
-
-.rocket-icon {
-  font-size: 2.5rem;
-  margin-top: 10px;
-}
-
-@keyframes hoverBounce {
-
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-
-  50% {
-    transform: translate(-50%, -15px);
-  }
-}
+.interactive-project { cursor: pointer; transition: transform 0.2s ease; }
+.interactive-project:active { transform: scale(0.95); }
 
 /* Hyperdrive Flash Screen */
 #hyperdrive-flash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: #ffffff;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  will-change: opacity;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background-color: #ffffff; z-index: 9999; opacity: 0;
+    pointer-events: none; will-change: opacity;
+}
+
+/* ==========================================
+   THE ROCKET SHIP
+   ========================================== */
+#rocket-ship {
+    position: fixed;
+    bottom: 5%; 
+    left: calc(50% - 30px); /* THE FIX: Perfect centering without transforms */
+    width: 60px;
+    height: 60px;
+    z-index: 500; 
+    filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.6));
+    will-change: transform;
+    transform-origin: center center;
+    cursor: grab;
+    pointer-events: auto; 
+}
+
+#rocket-ship:active {
+    cursor: grabbing;
+}
+
+#rocket-flame {
+    transform-origin: top center;
+    /* The idle flicker */
+    animation: flicker 0.1s infinite alternate; 
+}
+
+@keyframes flicker {
+    0% { transform: scaleY(0.8); opacity: 0.8; }
+    100% { transform: scaleY(1.2); opacity: 1; }
 }

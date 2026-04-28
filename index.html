@@ -1,79 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RG Develops | Digital World</title>
+    <!-- Linking our external CSS -->
+    <link rel="stylesheet" href="styles.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RG Develops | Digital World</title>
-  <link rel="stylesheet" href="styles.css">
+    <!-- GSAP Core & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  </head>
+  <body>
+    <!-- Scroll Progress Bar -->
+    <div id="progress"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-</head>
+    <!-- Hyperdrive Page Transition Flash -->
+    <div id="hyperdrive-flash"></div>
 
-<body>
+    <!-- 3D Environment Container -->
+    <div id="world">
+      <!-- The particle stream will be injected here via JS -->
+      <div id="particles-container"></div>
 
-  <div id="progress"></div>
+      <div id="particles-container"></div>
 
-  <div id="hyperdrive-flash"></div>
+      <div id="rocket-ship">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 2.51611L9.12305 6.83154C8.42398 7.88015 8.05141 9.12646 8.05141 10.3951V15.5H15.9486V10.3951C15.9486 9.12646 15.576 7.88015 14.8769 6.83154L12 2.51611Z"
+            fill="#00f2ff"
+          />
+          <path
+            d="M8.05141 15.5L5.16362 18.3878C4.5458 19.0056 4.98293 20.0625 5.85627 20.0625H18.1437C19.0171 20.0625 19.4542 19.0056 18.8364 18.3878L15.9486 15.5H8.05141Z"
+            fill="#00f2ff"
+          />
+          <path
+            id="rocket-flame"
+            d="M10 20.5L12 24L14 20.5H10Z"
+            fill="#ff0055"
+          />
+        </svg>
+      </div>
 
-  <div id="world">
-    <div id="particles-container"></div>
+      <!-- SECTION 1: THE ENTRY -->
+      <div class="section hero-section">
+        <p class="sub-text">WELCOME TO THE PORTFOLIO OF</p>
+        <h1 class="glitch" data-text="RON GREEN">RON GREEN</h1>
+      </div>
 
-    <div class="section hero-section">
-      <p class="sub-text">WELCOME TO THE PORTFOLIO OF</p>
-      <h1 class="glitch" data-text="RON GREEN">RON GREEN</h1>
+      <!-- SECTION 2: WEB DEVELOPMENTS -->
+      <div class="section interactive-project" data-url="iron-digital.html">
+        <h2>IRON DIGITAL</h2>
+        <div class="project-img">[IRON DIGITAL IMAGE PLACEHOLDER]</div>
+        <p>High-End Digital Solutions (Tap to enter)</p>
+      </div>
+
+      <!-- SECTION 3: APP DEVELOPMENTS -->
+      <div class="section interactive-project" data-url="sorting-source.html">
+        <h2>SORTING SOURCE</h2>
+        <div class="project-img">[SORTING SOURCE IMAGE/APP]</div>
+        <p>Smart Logic. Seamless UI. (Tap to enter)</p>
+      </div>
+
+      <!-- SECTION 4: UTILITY -->
+      <div class="section interactive-project" data-url="ez-breathe.html">
+        <h2>EZ BREATHE</h2>
+        <p>Mindfulness in every pixel. (Tap to enter)</p>
+      </div>
+
+      <!-- SECTION 5: CODING APP -->
+      <div class="section interactive-project" data-url="pocket-code-pro.html">
+        <h2 style="font-family: monospace; color: #0c7eff">POCKETCODE PRO</h2>
+        <div class="project-img">[POCKET CODE PRO UI]</div>
+        <p>Code anywhere. Compile anytime. (Tap to enter)</p>
+      </div>
+
+      <!-- SECTION 6: THE COMING SOON (THE TERMINUS) -->
+      <div class="section">
+        <h2 style="color: #ff0055">COMING SOON</h2>
+        <h1>CREATIVE SUITE</h1>
+        <p>The Canva Alternative for Pros.</p>
+      </div>
     </div>
 
-    <div class="section interactive-project" data-url="iron-digital.html">
-      <h2>IRON DIGITAL</h2>
-      <div class="project-img">[IRON DIGITAL IMAGE PLACEHOLDER]</div>
-      <p>High-End Digital Solutions (Tap to enter)</p>
-    </div>
+    <!-- 
+      SCROLL TRACK SPACER
+      6 sections * 400vh = 2400vh
+    -->
+    <div style="height: 2400vh"></div>
 
-    <div class="section interactive-project" data-url="sorting-source.html">
-      <h2>SORTING SOURCE</h2>
-      <div class="project-img">[SORTING SOURCE IMAGE/APP]</div>
-      <p>Smart Logic. Seamless UI. (Tap to enter)</p>
-    </div>
-
-    <div class="section interactive-project" data-url="ez-breathe.html">
-      <h2>EZ BREATHE</h2>
-      <p>Mindfulness in every pixel. (Tap to enter)</p>
-    </div>
-
-    <div class="section interactive-project" data-url="pocket-code-pro.html">
-      <h2 style="font-family: monospace; color: #00ff41;"> POCKET_CODE_PRO</h2>
-      <div class="project-img">[POCKET CODE PRO UI]</div>
-      <p>Code anywhere. Compile anytime. (Tap to enter)</p>
-    </div>
-
-    <div class="section">
-      <h2 style="color: #ff0055;">COMING SOON</h2>
-      <h1>CREATIVE SUITE</h1>
-      <p>The Canva Alternative for Pros.</p>
-    </div>
-  </div>
-
-  <div style="height: 1500vh;"></div>
-
-  <script src="app.js"></script>
-</body>
-
+    <!-- Linking our external JS -->
+    <script src="app.js"></script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
